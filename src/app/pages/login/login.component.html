@@ -1,0 +1,25 @@
+<div
+  class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4"
+>
+  <h1 class="text-2xl font-bold mb-6">Pizza Order Login</h1>
+
+  <!-- Guest Login -->
+  <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-lg font-semibold mb-4">Guest Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="guestLogin()">
+      <input
+        type="text"
+        formControlName="name"
+        placeholder="Your Name"
+        class="w-full p-2 border rounded mb-3"
+      />
+      <button
+        type="submit"
+        [disabled]="isSubmitting()"
+        class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+      >
+        Order Pizza
+      </button>
+    </form>
+  </div>
+</div>

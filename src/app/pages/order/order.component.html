@@ -1,0 +1,96 @@
+<div class="flex flex-col items-center p-4 min-h-screen">
+  <img src="/cat_making_pizza.gif" alt="Pizza Animation" class="w-64 mb-4" />
+
+  <h1 class="text-xl font-bold mb-4 text-center">Wybierz swoją pizzę 🍕</h1>
+
+  <div class="w-full">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+      @for (pizza of pizzas; track $index) {
+      <button
+        (click)="selectPizza(pizza)"
+        class="bg-cyan-900 text-white p-4 rounded w-full text-center flex flex-col items-center"
+      >
+        <span class="text-lg font-semibold">{{ pizza.name }}</span>
+        <div class="w-full my-2 border-t border-gray-300"></div>
+        <span class="text-sm text-gray-200">{{
+          pizza.ingredients.join(", ")
+        }}</span>
+      </button>
+      }
+    </div>
+  </div>
+
+  <!-- Ingredients Section -->
+  <div class="w-full max-w-lg mx-auto mt-8">
+    <!-- Centered container with max-width -->
+    <p class="font-semibold mb-2 text-center">
+      Lub skomponuj własną (Max 6 składników):
+    </p>
+    <div class="flex flex-wrap gap-2 justify-center">
+      @for (ingredient of ingredientsList; track $index) {
+      <button
+        (click)="addIngredient(ingredient)"
+        class="bg-lime-700 text-white p-3 rounded text-center min-w-[100px] md:min-w-[150px]"
+      >
+        {{ ingredient }}
+      </button>
+      }
+    </div>
+  </div>
+
+  @if (selectedPizzaName()) {
+  <div class="w-full max-w-lg mb-4 mt-4">
+    <p class="font-semibold text-center">
+      Wybrana pizza:
+      <span class="text-yellow-300">{{ selectedPizzaName() }}</span>
+    </p>
+  </div>
+  }
+
+  <div class="mt-4 w-full max-w-lg">
+    <h2 class="text-lg font-semibold text-center">Twoje składniki:</h2>
+    @for (ingredient of selectedIngredients(); track $index) {
+    <div class="flex justify-between items-center border p-2 rounded">
+      <p>{{ ingredient }}</p>
+      <button
+        (click)="removeIngredient(ingredient)"
+        class="bg-pink-950 text-white p-1 rounded"
+      >
+        Usuń
+      </button>
+    </div>
+    }
+  </div>
+
+  <button
+    #orderButton
+    (click)="placeOrder()"
+    class="mt-4 bg-lime-700 text-white px-4 py-2 rounded"
+  >
+    Zamów Pizzę
+  </button>
+</div>
+
+<div class="p-4">
+  <h1 class="text-xl font-bold mb-4">Orders</h1>
+
+  <div cdkDropList class="space-y-4">
+    @for (order of orders(); track $index) {
+    <div cdkDrag class="border p-4 rounded shadow-md bg-orange-200">
+      <p><strong>Name:</strong> {{ order.user_name }}</p>
+      <p><strong>Pizza:</strong> {{ order.pizza }}</p>
+      <p><strong>Ingredients:</strong> {{ order.ingredients.join(", ") }}</p>
+      <p><strong>Status:</strong> {{ order.status }}</p>
+
+      @if (isUserEligibleToDelete(order.user_name)) {
+      <button
+        (click)="deleteOrder(order.id)"
+        class="mt-2 bg-red-500 text-white px-4 py-2 rounded"
+      >
+        Usuń
+      </button>
+      }
+    </div>
+    }
+  </div>
+</div>

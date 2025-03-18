@@ -1,0 +1,23 @@
+<div
+  class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4"
+>
+  <h1 class="text-2xl font-bold mb-6">Enter Passphrase</h1>
+
+  <div class="w-full max-w-md bg-white p-6 rounded-lg shadow-md">
+    <form [formGroup]="passphraseForm" (ngSubmit)="checkPassphrase()">
+      <input
+        type="password"
+        formControlName="passphrase"
+        placeholder="Enter Passphrase"
+        class="w-full p-2 border rounded mb-3"
+      />
+      <button
+        type="submit"
+        class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+      >
+        Enter
+      </button>
+    </form>
+    <p class="text-red-500 text-sm mt-2">{{ errorMessage() }}</p>
+  </div>
+</div>
