@@ -5,8 +5,8 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { SupabaseService } from '../../services/supabase.service';
-import { PIZZAS } from './pizzas';
+import { SupabaseService } from '../src/app/services/supabase.service';
+import { PIZZAS } from '../src/app/pages/order/pizzas';
 
 @Component({
   selector: 'app-order',
@@ -71,7 +71,16 @@ export class OrderComponent {
   }
 
   placeOrder() {
+    const localOrders = JSON.parse(localStorage.getItem('pizzas') || '[]');
+
+    // Check if the user has exceeded the limit (4 pizzas max)
+    if (localOrders.length >= 4) {
+      alert('Możesz dodać tylko 4 pizze na raz, usuń już dodane');
+      return;
+    }
+
     const order = {
+      id: crypto.randomUUID(),
       user_name: this.userName,
       pizza: this.selectedPizzaName()
         ? this.selectedPizzaName()
@@ -79,8 +88,12 @@ export class OrderComponent {
       ingredients: this.selectedIngredients(),
       status: 'Pending',
     };
+    localOrders.push(order);
+    localStorage.setItem('pizzas', JSON.stringify(localOrders));
+
     this.supabase.addOrder(order);
   }
+
   scrollToOrderButton() {
     if (this.orderButton) {
       this.orderButton.nativeElement.scrollIntoView({
@@ -90,14 +103,30 @@ export class OrderComponent {
     }
   }
 
-  isUserEligibleToDelete(orderUserName: string): boolean {
-    return this.userName === 'Wojtek' || this.userName === orderUserName;
+  isUserEligibleToDelete(orderId: string): boolean {
+    // Get user's name from sessionStorage
+    const currentUser = sessionStorage.getItem('guestName') || 'Guest';
+
+    // Allow "Wojtek" (admin) to delete any order
+    if (currentUser === 'Wojtek') return true;
+
+    // Allow the user to delete their own order
+    const localOrders = JSON.parse(localStorage.getItem('pizzas') || '[]');
+    return localOrders.some((order: any) => order.id === orderId);
   }
 
   /**
    * Deletes an order if the user is eligible.
    */
   deleteOrder(orderId: string) {
+    // Get the existing orders
+    let localOrders = JSON.parse(localStorage.getItem('pizzas') || '[]');
+
+    // Remove the order from localStorage
+    localOrders = localOrders.filter((order: any) => order.id !== orderId);
+    localStorage.setItem('pizzas', JSON.stringify(localOrders));
+
+    // Remove the order from Supabase
     this.supabase.removeOrder(orderId, this.userName);
   }
 }

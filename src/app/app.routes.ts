@@ -2,7 +2,7 @@ import { provideRouter, Routes } from '@angular/router';
 import { PassphraseComponent } from './pages/passphrase/passphrase.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthGuard } from './auth.guard';
-import { OrderComponent } from './pages/order/order.component';
+import { OrderComponent } from '../../docs/order.component';
 
 export const routes: Routes = [
   {
