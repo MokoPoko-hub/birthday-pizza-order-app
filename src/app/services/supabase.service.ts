@@ -22,7 +22,7 @@ export class SupabaseService {
     const { data, error } = await this.supabase
       .from('orders')
       .select('*')
-      .order('created_at');
+      .order('created_at', { ascending: false });
     if (data) this.orders.set(data);
   }
 

@@ -127,11 +127,11 @@ export class OrderComponent {
     // Get the existing orders
     let localOrders = JSON.parse(localStorage.getItem('pizzas') || '[]');
 
+    // Remove the order from Supabase
+    this.supabase.removeOrder(orderId, this.userName);
+
     // Remove the order from localStorage
     localOrders = localOrders.filter((order: any) => order.id !== orderId);
     localStorage.setItem('pizzas', JSON.stringify(localOrders));
-
-    // Remove the order from Supabase
-    this.supabase.removeOrder(orderId, this.userName);
   }
 }
