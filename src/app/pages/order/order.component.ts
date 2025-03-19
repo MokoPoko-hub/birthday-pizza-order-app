@@ -5,8 +5,8 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { SupabaseService } from '../src/app/services/supabase.service';
-import { PIZZAS } from '../src/app/pages/order/pizzas';
+import { SupabaseService } from '../../services/supabase.service';
+import { PIZZAS } from './pizzas';
 
 @Component({
   selector: 'app-order',
@@ -71,9 +71,14 @@ export class OrderComponent {
   }
 
   placeOrder() {
-    const localOrders = JSON.parse(localStorage.getItem('pizzas') || '[]');
+    let localOrders = JSON.parse(localStorage.getItem('pizzas') || '[]');
 
-    // Check if the user has exceeded the limit (4 pizzas max)
+    localOrders = localOrders.filter(
+      (order: any) => order.pizza && order.pizza.trim() !== ''
+    );
+
+    localStorage.setItem('pizzas', JSON.stringify(localOrders));
+
     if (localOrders.length >= 4) {
       alert('Możesz dodać tylko 4 pizze na raz, usuń już dodane');
       return;
