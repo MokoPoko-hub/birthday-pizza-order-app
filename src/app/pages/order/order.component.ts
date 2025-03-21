@@ -26,6 +26,7 @@ export class OrderComponent {
     'Ser pleśniowy 🧀',
     'Szynka 🍖',
     'Parmeńska 🍖',
+    'Kurczak 🍗',
     'Salami 🌶️',
     'Boczek 🥓',
     'Pieczarki 🍄‍🟫',

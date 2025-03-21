@@ -63,4 +63,14 @@ export const PIZZAS = [
     name: 'Sierściuch 🍃',
     ingredients: ['Ser mozzarella 🧀', 'Papryka 🫑', 'Rukola 🌿', 'Cebula 🧅'],
   },
+  {
+    name: 'Czarny kot (sos barbeque)',
+    ingredients: [
+      'Ser mozzarella 🧀',
+      'Kurczak 🍗',
+      'Salami 🥓',
+      'Kukurydza 🌽',
+      'Cebula 🧅',
+    ],
+  },
 ];
